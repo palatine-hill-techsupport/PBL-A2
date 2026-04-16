@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bankability Health Check</title>
+  <link href="https://fonts.googleapis.com/css2?family=Sora:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <!-- ── INTRO ──────────────────────────────────────────────────── -->
+  <div id="screen-intro" class="screen active">
+
+    <div class="intro-hero">
+      <img src="background.jpg" alt="Acacia tree at sunset over the East African savanna">
+      <div class="intro-hero-overlay"></div>
+      <div class="intro-hero-caption">Photo: Tsavo West, Kenya</div>
+    </div>
+
+    <div class="intro-panel">
+      <div class="intro-badge">SDG 7 · Mini-Grid Finance Tool</div>
+      <h1 class="intro-title">Is your project <span>bankable?</span></h1>
+      <p class="intro-sub">
+        A 5-minute self-assessment for mini-grid operators. Answer honestly — this tool helps you understand where your project stands before approaching investors.
+      </p>
+      <div class="intro-dims">
+        <span class="dim-pill">📋 Regulatory</span>
+        <span class="dim-pill">💰 Financial</span>
+        <span class="dim-pill">⚙️ Technical</span>
+        <span class="dim-pill">🤝 Social</span>
+        <span class="dim-pill">🛡 Risk</span>
+      </div>
+      <button class="btn-primary" onclick="startAssessment()">Begin assessment →</button>
+    </div>
+
+  </div>
+
+  <!-- ── QUESTION ────────────────────────────────────────────────── -->
+  <div id="screen-question" class="screen">
+
+    <aside class="sidebar">
+      <div class="sidebar-logo">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="2" width="16" height="16" rx="3" stroke="#2a6e48" stroke-width="2"/>
+          <path d="M6 10h8M6 13h5" stroke="#2a6e48" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="10" cy="7" r="1.5" fill="#2a6e48"/>
+        </svg>
+        Bankability Check
+      </div>
+      <div class="sidebar-section-label">Dimensions</div>
+      <div id="sidebar-items"></div>
+    </aside>
+
+    <main class="question-main">
+      <div class="q-header">
+        <div class="q-dim-label" id="q-dim-label"></div>
+        <h2 class="q-title" id="q-title"></h2>
+        <p class="q-desc" id="q-desc"></p>
+      </div>
+
+      <div class="progress-track">
+        <div class="progress-fill" id="progress-fill"></div>
+      </div>
+
+      <div class="questions-list" id="questions-list"></div>
+
+      <div class="q-footer">
+        <span class="q-counter" id="q-counter"></span>
+        <div style="display:flex;gap:0.75rem;">
+          <button class="btn-ghost" id="btn-back" onclick="prevDim()">← Back</button>
+          <button class="btn-next" id="btn-next" onclick="nextDim()">Continue →</button>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <!-- ── RESULTS ─────────────────────────────────────────────────── -->
+  <div id="screen-results" class="screen">
+
+    <div class="results-topbar">
+      <div class="results-topbar-logo">
+        <svg width="20" height="20" viewBox="0 0 20 20" fill="none">
+          <rect x="2" y="2" width="16" height="16" rx="3" stroke="#2a6e48" stroke-width="2"/>
+          <path d="M6 10h8M6 13h5" stroke="#2a6e48" stroke-width="1.8" stroke-linecap="round"/>
+          <circle cx="10" cy="7" r="1.5" fill="#2a6e48"/>
+        </svg>
+        Bankability Health Check
+      </div>
+      <div class="results-actions">
+        <button class="btn-outline" onclick="copyLink()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+          Copy link
+        </button>
+        <button class="btn-outline" onclick="downloadPDF()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download PDF
+        </button>
+      </div>
+    </div>
+
+    <div class="results-body">
+
+      <nav class="results-nav">
+        <div class="results-nav-label">Dimensions</div>
+        <div id="results-nav-items"></div>
+      </nav>
+
+      <div class="results-center">
+        <div class="results-header">
+          <h1>Your Bankability Report</h1>
+          <p id="results-date"></p>
+        </div>
+
+        <div class="gauge-wrap">
+          <div class="gauge-svg-wrap">
+            <svg width="180" height="110" viewBox="0 0 180 110">
+              <path d="M 20 100 A 70 70 0 0 1 160 100" fill="none" stroke="#e8e4dc" stroke-width="14" stroke-linecap="round"/>
+              <path id="gauge-arc" d="M 20 100 A 70 70 0 0 1 160 100" fill="none" stroke="#2a6e48" stroke-width="14" stroke-linecap="round" stroke-dasharray="220" stroke-dashoffset="220" style="transition:stroke-dashoffset 1.2s cubic-bezier(.22,.68,0,1.2)"/>
+            </svg>
+            <div class="gauge-number"><span id="gauge-score">0</span><span class="gauge-denom">/100</span></div>
+          </div>
+          <div class="gauge-info">
+            <div class="gauge-verdict" id="gauge-verdict"></div>
+            <div class="gauge-title" id="gauge-title"></div>
+            <p class="gauge-summary" id="gauge-summary"></p>
+          </div>
+        </div>
+
+        <div class="dim-bars" id="dim-bars"></div>
+      </div>
+
+      <aside class="results-right">
+        <div>
+          <div class="right-section-title">Priority actions</div>
+          <div class="priority-list" id="priority-list"></div>
+        </div>
+        <div>
+          <div class="right-section-title">Share your report</div>
+          <div class="export-btns">
+            <button class="btn-export btn-export-primary" onclick="downloadPDF()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              Download PDF
+            </button>
+            <button class="btn-export btn-export-secondary" onclick="copyLink()">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M10 13a5 5 0 007.54.54l3-3a5 5 0 00-7.07-7.07l-1.72 1.71"/><path d="M14 11a5 5 0 00-7.54-.54l-3 3a5 5 0 007.07 7.07l1.71-1.71"/></svg>
+              Copy shareable link
+            </button>
+          </div>
+        </div>
+        <div class="restart-link" onclick="restart()">← Start over</div>
+      </aside>
+    </div>
+  </div>
+
+  <div class="toast" id="toast">Link copied to clipboard</div>
+
+  <script src="scripts.js"></script>
+</body>
+</html>
