@@ -34,11 +34,11 @@ const dimensions = [
     questions: [
       {
         text: 'Do you have a financial model projecting cash flows over the project lifetime?',
-        options: ['Yes, detailed model reviewed by external party', 'Yes, internal model in place', 'Partial — revenue estimated, costs incomplete', 'No financial model yet']
+        options: ['Yes, detailed model reviewed by external party', 'Yes, internal model in place', 'Partial, revenue estimated, costs incomplete', 'No financial model yet']
       },
       {
         text: 'How would you describe current or projected tariff collection rates?',
-        options: ['Above 90% consistently', '75–90% with documented plan to improve', '50–75% with known barriers', 'Below 50% or unknown']
+        options: ['Above 90% consistently', '75-90% with documented plan to improve', '50-75% with known barriers', 'Below 50% or unknown']
       },
       {
         text: 'Do you have audited financial statements or formal bookkeeping records?',
@@ -88,7 +88,7 @@ const dimensions = [
       },
       {
         text: 'Is there formal support from local government or community leadership?',
-        options: ['Yes, formal letters or MoUs signed', 'Verbal support confirmed', 'Neutral — no opposition, no endorsement', 'Opposition or unresolved conflicts']
+        options: ['Yes, formal letters or MoUs signed', 'Verbal support confirmed', 'Neutral, no opposition, no endorsement', 'Opposition or unresolved conflicts']
       }
     ]
   },
@@ -111,7 +111,7 @@ const dimensions = [
       },
       {
         text: 'Have currency or forex risks been assessed if external financing is involved?',
-        options: ['Yes, with hedging or mitigation strategy', 'Acknowledged but no formal strategy', 'Not yet considered', 'Not applicable — local currency financing only']
+        options: ['Yes, with hedging or mitigation strategy', 'Acknowledged but no formal strategy', 'Not yet considered', 'Not applicable, local currency financing only']
       }
     ]
   }
@@ -294,7 +294,7 @@ function showResults() {
     document.querySelectorAll('.dim-fill').forEach(el => { el.style.width = el.dataset.target + '%'; });
   }, 150);
 
-  // Priority actions — lowest scoring dims first
+  // Priority actions - lowest scoring dims first
   const sorted    = [...dimensions].sort((a, b) => dimScore(a.id) - dimScore(b.id));
   const priorities = [
     `Address ${sorted[0].name.toLowerCase()} gaps first (score: ${dimScore(sorted[0].id)}/100)`,
